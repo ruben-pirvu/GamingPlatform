@@ -2,6 +2,27 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.7.
 
+## Components
+
+- `src/` contains the Angular frontend.
+- `api/` contains the ASP.NET Core Web API, targeting .NET 10.
+
+## Run the application
+
+Start the API in one terminal:
+
+```bash
+dotnet run --project api/GamingPlatform.Api.csproj
+```
+
+Start the Angular frontend in another terminal:
+
+```bash
+npm start
+```
+
+Open `http://localhost:4200/`. During development, Angular proxies `/api/**` to the API at `http://localhost:5000`. Verify the API with `http://localhost:4200/api/health` or directly at `http://localhost:5000/api/health`.
+
 ## Development server
 
 To start a local development server, run:
