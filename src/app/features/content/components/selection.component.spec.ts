@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { GAME_CONTENT_SOURCE, GameContentService } from '../services/game-content.service';
 import { SelectionComponent } from './selection.component';
 
 describe('SelectionComponent', () => {
@@ -7,6 +8,7 @@ describe('SelectionComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SelectionComponent],
+      providers: [{ provide: GAME_CONTENT_SOURCE, useClass: GameContentService }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SelectionComponent);

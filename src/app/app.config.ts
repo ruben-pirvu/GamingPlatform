@@ -3,11 +3,13 @@ import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { routes } from './app.routes';
 import { authInterceptor } from './features/auth/services/auth.interceptor';
+import { GAME_CONTENT_SOURCE, GameContentService } from './features/content/services/game-content.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])),
+    { provide: GAME_CONTENT_SOURCE, useExisting: GameContentService },
   ],
 };

@@ -1,14 +1,23 @@
-import { Injectable } from '@angular/core';
+import { InjectionToken, Injectable } from '@angular/core';
+import { map, Observable, of } from 'rxjs';
 
 export interface Game {
   id: string;
   title: string;
   category: string;
   description: string;
+  imageUrl?: string;
 }
 
+export interface GameContentSource {
+  getAvailableGames(): Observable<readonly Game[]>;
+  getGameById(id: string): Observable<Game | undefined>;
+}
+
+export const GAME_CONTENT_SOURCE = new InjectionToken<GameContentSource>('GAME_CONTENT_SOURCE');
+
 @Injectable({ providedIn: 'root' })
-export class GameContentService {
+export class GameContentService implements GameContentSource {
   private readonly games: readonly Game[] = [
     {
       id: 'solar-spins',
@@ -54,7 +63,11 @@ export class GameContentService {
     },
   ];
 
-  getAvailableGames(): readonly Game[] {
-    return this.games;
+  getAvailableGames(): Observable<readonly Game[]> {
+    return of(this.games);
+  }
+
+  getGameById(id: string): Observable<Game | undefined> {
+    return this.getAvailableGames().pipe(map((games) => games.find((game) => game.id === id)));
   }
 }
