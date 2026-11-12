@@ -1,8 +1,12 @@
+using GamingPlatform.Api.Modules.Health.Abstractions;
+using GamingPlatform.Api.Modules.Health.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddScoped<IHealthService, HealthService>();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 

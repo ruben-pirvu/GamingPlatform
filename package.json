@@ -7,6 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test:jest": "jest --config jest.config.cjs",
+    "test:e2e": "playwright test",
     "test:integration": "node --test scripts/frontend-backend.integration.test.mjs"
   },
   "private": true,
@@ -25,9 +27,15 @@
     "@angular/build": "^22.2.7",
     "@angular/cli": "^22.2.7",
     "@angular/compiler-cli": "^22.2.0",
+    "@playwright/test": "^1.65.0",
+    "@types/jest": "^30.0.0",
+    "jest": "^30.5.2",
+    "jest-environment-jsdom": "^30.5.2",
+    "jest-preset-angular": "^17.0.3",
     "jsdom": "^30.0.0",
     "prettier": "^3.8.1",
     "typescript": "~6.0.2",
-    "vitest": "^5.0.0"
+    "vitest": "^5.0.0",
+    "zone.js": "^0.16.3"
   }
 }
