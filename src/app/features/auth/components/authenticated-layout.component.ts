@@ -1,9 +1,10 @@
+import { CurrencyPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 @Component({
-  imports: [RouterOutlet],
+  imports: [CurrencyPipe, RouterOutlet],
   selector: 'app-authenticated-layout',
   styleUrl: './authenticated-layout.component.css',
   templateUrl: './authenticated-layout.component.html',

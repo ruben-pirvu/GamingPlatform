@@ -62,6 +62,32 @@ public class LaunchServiceTests
     }
 
     [Theory]
+    [InlineData(0)]
+    [InlineData(99)]
+    [InlineData(100)]
+    public void CheckEligibility_DeniesBalanceOfOneEuroOrLess(int balanceInCents)
+    {
+        var service = CreateServiceWithBalance(balanceInCents / 100m);
+
+        var response = service.CheckEligibility("player-1", "solar-spins");
+
+        Assert.False(response.IsEligible);
+        Assert.Contains("greater than €1.00", response.Message);
+    }
+
+    [Theory]
+    [InlineData(101)]
+    [InlineData(12550)]
+    public void CheckEligibility_AllowsBalanceGreaterThanOneEuro(int balanceInCents)
+    {
+        var service = CreateServiceWithBalance(balanceInCents / 100m);
+
+        var response = service.CheckEligibility("player-1", "solar-spins");
+
+        Assert.True(response.IsEligible);
+    }
+
+    [Theory]
     [InlineData("RO", "solar-spins", true)]
     [InlineData("RO", "moonlit-mahjong", true)]
     [InlineData("DE", "solar-spins", false)]
@@ -86,5 +112,19 @@ public class LaunchServiceTests
         {
             Assert.Contains("not available in your country", response.Message);
         }
+    }
+
+    private static LaunchService CreateServiceWithBalance(decimal walletBalance)
+    {
+        var authService = new Mock<IAuthService>();
+        authService
+            .Setup(service => service.GetAuthenticatedUser("player-1"))
+            .Returns(new AuthenticatedUserResponse("player-1", "demo", true, true, walletBalance, "US"));
+        var contentService = new Mock<IGameContentService>();
+        contentService
+            .Setup(service => service.GetGameById("solar-spins"))
+            .Returns(new GameResponse("solar-spins", "Solar Spins", "Slots", "Demo game.", null));
+
+        return new LaunchService(authService.Object, contentService.Object);
     }
 }

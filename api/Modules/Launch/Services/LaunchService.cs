@@ -9,6 +9,8 @@ public sealed class LaunchService(
     IAuthService authService,
     IGameContentService gameContentService) : ILaunchService
 {
+    private const decimal MinimumWalletBalanceForLaunch = 1.00m;
+
     public EligibilityCheckResponse CheckEligibility(string userId, string gameId)
     {
         var user = authService.GetAuthenticatedUser(userId);
@@ -20,6 +22,11 @@ public sealed class LaunchService(
         if (!user.IsOfLegalAge || !user.IsEligibleToPlay)
         {
             return new EligibilityCheckResponse(false, "Age or account eligibility could not be verified.");
+        }
+
+        if (user.WalletBalance <= MinimumWalletBalanceForLaunch)
+        {
+            return new EligibilityCheckResponse(false, "A wallet balance greater than €1.00 is required to launch.");
         }
 
         var game = gameContentService.GetGameById(gameId);

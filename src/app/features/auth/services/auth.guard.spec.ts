@@ -99,6 +99,7 @@ describe('authGuard', () => {
 
     expect(TestBed.inject(Router).url).toBe('/games');
     expect(harness.fixture.nativeElement.textContent).toContain('demo');
+    expect(harness.fixture.nativeElement.textContent).toContain('€125.50');
   });
 
   it('logs out and returns to login', async () => {

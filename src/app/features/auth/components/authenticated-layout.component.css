@@ -17,6 +17,11 @@
   z-index: 20;
 }
 
+.wallet-balance {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
 .logout-button {
   background: #c4a5ff;
   border: 0;
