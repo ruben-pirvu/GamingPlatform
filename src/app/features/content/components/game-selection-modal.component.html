@@ -6,7 +6,7 @@
     aria-labelledby="game-modal-title"
     (click)="$event.stopPropagation()"
   >
-    @if (preflightState === null) {
+    @if (eligibilityCheckState === null) {
       <button
         class="close-button"
         type="button"
@@ -27,13 +27,16 @@
       <h2 id="game-modal-title">{{ game.title }}</h2>
       <p class="game-description">{{ game.description }}</p>
       <div class="modal-actions">
-        <button class="launch-button" type="button" (click)="requestLaunch()">
-          Check age &amp; launch
+        <button class="launch-button" type="button" (click)="requestEligibilityCheck()">
+          Check eligibility &amp; launch
         </button>
         <button class="cancel-button" type="button" (click)="requestClose()">Back to games</button>
       </div>
     } @else {
-      <app-age-check-status [state]="preflightState" />
+      <app-eligibility-check-status
+        [state]="eligibilityCheckState"
+        [message]="eligibilityCheckMessage"
+      />
     }
   </section>
 </div>

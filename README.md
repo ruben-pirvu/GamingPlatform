@@ -1,83 +1,48 @@
-# GamingPlatform
+# Gaming Platform
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.7.
+A modular-monolith demo built with an Angular frontend and ASP.NET Core API.
 
-## Components
+- **Authentication:** JWT sign-in with JSON-backed demo users; game pages require an authenticated, eligible adult.
+- **Game library:** Seven sample games from a replaceable JSON content source.
+- **Eligibility:** Checks age, account status, game availability, and a demo country rule.
+- **Launch:** Shows a waiting screen until a future external game provider is connected.
+- **Scope:** No database, live provider, payment/wallet ledger, or regulatory integration.
 
-- `src/` contains the Angular frontend.
-- `api/` contains the ASP.NET Core Web API, targeting .NET 10.
-- `GamingPlatform.sln` is the Visual Studio solution for the API.
+## Architecture
 
-Open `GamingPlatform.sln` in Visual Studio to develop and run the API. The Angular frontend remains a separate Node.js project and can be run with `npm start`.
+The supplied [platform diagram](platform-diagram.png) is retained as the **target architecture**, not a complete picture of the running prototype.
 
-## Run the application
+- **Implemented:** Angular login, game selection and protected routes; API authentication, game catalog, and eligibility-check controllers; Identity, Content, and Launch services; JSON-backed users and games.
+- **Not implemented from the diagram:** A separate `GameView`, external-provider module/result simulator, and real balance or regulatory checks. The current launch component intentionally waits for an external provider.
 
-Start the API in one terminal:
+## Technologies
 
-```bash
-dotnet run --project api/GamingPlatform.Api.csproj
-```
+- Angular 22, TypeScript, RxJS
+- ASP.NET Core Web API on .NET 10; JWT bearer authentication and built-in OpenAPI
+- JSON user store with hashed passwords
+- Vitest and Jest (frontend), xUnit (API), Playwright (end-to-end)
 
-Start the Angular frontend in another terminal:
+## Run locally
 
-```bash
-npm start
-```
+Prerequisites: Node.js 26+, npm, and .NET 10 SDK.
 
-Open `http://localhost:4200/`. During development, Angular proxies `/api/**` to the API at `http://localhost:5000`. Verify the API with `http://localhost:4200/api/health` or directly at `http://localhost:5000/api/health`.
+1. Configure a local JWT key (at least 32 characters):
 
-## Development server
+   ```powershell
+   dotnet user-secrets set "Authentication:Jwt:SigningKey" "<random-secret-of-at-least-32-characters>" --project api\GamingPlatform.Api.csproj
+   ```
 
-To start a local development server, run:
+2. Start the API with `dotnet run --project api\GamingPlatform.Api.csproj`.
+3. In a second terminal, run `npm start` and open <http://localhost:4200>.
 
-```bash
-ng serve
-```
+Angular proxies `/api` requests to the API on `http://localhost:5000`. API endpoints include `/api/auth/login`, authenticated `/api/auth/me`, `/api/games`, and authenticated `/api/launch/eligibility-check`.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Demo sign-ins: `demo` / `DemoPass123!`, `romania` / `RomaniaPass123!`, and `germany` / `GermanyPass123!`. The `restricted` account is ineligible and under 18.
 
-## Code scaffolding
+## Tests
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Angular/Vitest: `npm test -- --watch=false`
+- Jest: `npm run test:jest`
+- API/xUnit: `dotnet test --project api.Tests\GamingPlatform.Api.Tests.csproj`
+- Playwright E2E (starts both apps): `npm run test:e2e`
+- API/frontend integration: `npm run test:integration`

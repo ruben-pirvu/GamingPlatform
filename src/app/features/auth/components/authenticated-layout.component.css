@@ -1,0 +1,42 @@
+:host {
+  display: block;
+}
+
+.user-toolbar {
+  align-items: center;
+  background: rgb(27 26 41 / 94%);
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: 999px;
+  color: #f7f5ff;
+  display: flex;
+  gap: 0.9rem;
+  padding: 0.5rem 0.65rem 0.5rem 1rem;
+  position: fixed;
+  right: 1rem;
+  top: 1rem;
+  z-index: 20;
+}
+
+.logout-button {
+  background: #c4a5ff;
+  border: 0;
+  border-radius: 999px;
+  color: #171326;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  padding: 0.45rem 0.8rem;
+}
+
+.logout-button:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+@media (max-width: 36rem) {
+  .user-toolbar {
+    font-size: 0.85rem;
+    right: 0.5rem;
+    top: 0.5rem;
+  }
+}

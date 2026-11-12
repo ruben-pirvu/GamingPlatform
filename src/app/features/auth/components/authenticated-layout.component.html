@@ -1,0 +1,8 @@
+@if (currentUser(); as user) {
+  <div class="user-toolbar" aria-label="Current user and session controls">
+    <span>Signed in as <strong>{{ user.username }}</strong></span>
+    <button class="logout-button" type="button" (click)="logout()">Log out</button>
+  </div>
+}
+
+<router-outlet />

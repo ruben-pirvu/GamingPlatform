@@ -2,14 +2,18 @@
   <section class="auth-card" aria-labelledby="login-title">
     @if (user(); as authenticatedUser) {
       <h1 id="login-title">Welcome, {{ authenticatedUser.username }}</h1>
-      <p role="status">
-        {{
-          authenticatedUser.isEligibleToPlay
-            ? 'Your account is eligible to play.'
-            : 'Your account is not eligible to play.'
-        }}
-      </p>
-      <a class="browse-games" routerLink="/games">Browse games</a>
+      @if (authenticatedUser.isEligibleToPlay && authenticatedUser.isOfLegalAge) {
+        <p role="status">Your account is eligible to play.</p>
+        <a class="browse-games" routerLink="/games">Browse games</a>
+      } @else {
+        <p role="alert">
+          {{
+            authenticatedUser.isOfLegalAge
+              ? 'Your account is not eligible to play.'
+              : 'You must be of legal age to access games.'
+          }}
+        </p>
+      }
       <button type="button" (click)="logout()">Sign out</button>
     } @else {
       <h1 id="login-title">Sign in</h1>

@@ -1,6 +1,28 @@
 @GamingPlatform.Api_HostAddress = http://localhost:5000
+@accessToken = replace-with-access-token
 
-GET {{GamingPlatform.Api_HostAddress}}/api/health
+### Get available games
+GET {{GamingPlatform.Api_HostAddress}}/api/games
 Accept: application/json
 
-###
+### Get one game
+GET {{GamingPlatform.Api_HostAddress}}/api/games/solar-spins
+Accept: application/json
+
+### Sign in
+POST {{GamingPlatform.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "demo",
+  "password": "DemoPass123!"
+}
+
+### Check launch eligibility
+POST {{GamingPlatform.Api_HostAddress}}/api/launch/eligibility-check
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "gameId": "solar-spins"
+}

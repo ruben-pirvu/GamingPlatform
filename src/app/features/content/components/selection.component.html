@@ -46,9 +46,10 @@
     @if (selectedGame(); as game) {
       <app-game-selection-modal
         [game]="game"
-        [preflightState]="preflightState()"
+        [eligibilityCheckState]="eligibilityCheckState()"
+        [eligibilityCheckMessage]="eligibilityCheckMessage()"
         (closeRequested)="closeGameModal()"
-        (launchRequested)="checkAgeAndLaunch()"
+        (eligibilityCheckRequested)="checkEligibility()"
       />
     }
   </main>

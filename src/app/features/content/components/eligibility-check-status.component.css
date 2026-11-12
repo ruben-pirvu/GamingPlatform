@@ -1,4 +1,4 @@
-.preflight-result {
+.eligibility-check-result {
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -9,11 +9,11 @@
   text-align: center;
 }
 
-.preflight-result p {
+.eligibility-check-result p {
   margin: 0;
 }
 
-.preflight-spinner,
+.eligibility-check-spinner,
 .result-icon {
   align-items: center;
   border-radius: 50%;
@@ -23,7 +23,7 @@
   width: 3rem;
 }
 
-.preflight-spinner {
+.eligibility-check-spinner {
   animation: spin 850ms linear infinite;
   border: 4px solid rgb(255 255 255 / 20%);
   border-top-color: #c4a5ff;
@@ -45,7 +45,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .preflight-spinner,
+  .eligibility-check-spinner,
   .result-icon {
     animation-duration: 0.01ms;
   }

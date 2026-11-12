@@ -13,17 +13,26 @@ test('eligible users can sign in through the Angular client', async ({ page }) =
   await expect(page).toHaveURL(/\/games$/);
   await expect(page.locator('.game-card')).toHaveCount(7);
   await page.getByRole('button', { name: /Solar Spins/ }).click();
-  await expect(page.getByRole('status')).toHaveText('Selected: Solar Spins');
+  const gameDialog = page.getByRole('dialog');
+  await expect(gameDialog.getByRole('heading', { name: 'Solar Spins' })).toBeVisible();
+  await gameDialog.getByRole('button', { name: 'Check eligibility & launch' }).click();
+  await expect(page.getByText('Game ready to load')).toBeVisible();
+  await expect(page.getByText(/Waiting for the external game service/)).toBeVisible();
 });
 
-test('ineligible users can authenticate but are shown their eligibility status', async ({ page }) => {
+test('ineligible users cannot open authenticated game pages', async ({ page }) => {
   await page.goto('/login');
   await page.getByLabel('Username').fill('restricted');
   await page.getByLabel('Password').fill('RestrictedPass123!');
   await page.getByRole('button', { name: 'Sign in' }).click();
 
   await expect(page.getByRole('heading', { name: 'Welcome, restricted' })).toBeVisible();
-  await expect(page.getByRole('status')).toHaveText('Your account is not eligible to play.');
+  await expect(page.getByRole('alert')).toHaveText('You must be of legal age to access games.');
+  await expect(page.getByRole('link', { name: 'Browse games' })).toHaveCount(0);
+
+  await page.goto('/games');
+  await expect(page).toHaveURL(/\/login$/);
+  await expect(page.getByRole('heading', { name: 'Welcome, restricted' })).toBeVisible();
 });
 
 test('invalid credentials do not authenticate', async ({ page }) => {

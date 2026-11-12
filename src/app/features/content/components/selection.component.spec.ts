@@ -1,29 +1,30 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { signal, WritableSignal } from '@angular/core';
-import { AuthenticatedUser } from '../../auth/services/auth.models';
-import { AuthService } from '../../auth/services/auth.service';
-import { GAME_CONTENT_SOURCE, GameContentService } from '../services/game-content.service';
+import { of } from 'rxjs';
+import { LaunchService } from '../../launch/services/launch.service';
+import { GAME_CONTENT_SOURCE } from '../services/game-content.service';
 import { SelectionComponent } from './selection.component';
 
 describe('SelectionComponent', () => {
   let fixture: ComponentFixture<SelectionComponent>;
-  let currentUser: WritableSignal<AuthenticatedUser | null>;
+  let eligibilityResult: { isEligible: boolean; message: string };
+  const games = Array.from({ length: 7 }, (_, index) => ({
+    id: index === 0 ? 'solar-spins' : `game-${index}`,
+    title: index === 0 ? 'Solar Spins' : `Game ${index}`,
+    category: 'Test',
+    description: 'Test game',
+  }));
 
   beforeEach(async () => {
-    currentUser = signal({
-      id: 'player-1',
-      username: 'demo',
-      isEligibleToPlay: true,
-      isOfLegalAge: true,
-      walletBalance: 125.5,
-      country: 'US',
-    });
+    eligibilityResult = { isEligible: true, message: 'Game ready to load.' };
 
     await TestBed.configureTestingModule({
       imports: [SelectionComponent],
       providers: [
-        { provide: GAME_CONTENT_SOURCE, useClass: GameContentService },
-        { provide: AuthService, useValue: { currentUser } },
+        {
+          provide: GAME_CONTENT_SOURCE,
+          useValue: { getAvailableGames: () => of(games) },
+        },
+        { provide: LaunchService, useValue: { checkEligibility: () => of(eligibilityResult) } },
       ],
     }).compileComponents();
 
@@ -73,22 +74,20 @@ describe('SelectionComponent', () => {
   });
 
   it('returns to game selection after a failed age check', async () => {
-    const user = currentUser();
-    if (!user) {
-      throw new Error('Test user must be available');
-    }
-
-    currentUser.set({ ...user, isOfLegalAge: false });
+    eligibilityResult = { isEligible: false, message: 'Age verification failed.' };
     fixture.detectChanges();
     fixture.nativeElement.querySelector('.game-card').click();
     fixture.detectChanges();
     fixture.nativeElement.querySelector('.launch-button').click();
+    fixture.detectChanges();
 
-    await new Promise((resolve) => setTimeout(resolve, 750));
+    expect(fixture.nativeElement.textContent).toContain('Returning to game selection');
+
+    await new Promise((resolve) => setTimeout(resolve, 1400));
     fixture.detectChanges();
     expect(fixture.nativeElement.textContent).toContain('Returning to game selection');
 
-    await new Promise((resolve) => setTimeout(resolve, 550));
+    await new Promise((resolve) => setTimeout(resolve, 200));
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.launch-button')).toBeNull();
     expect(fixture.nativeElement.textContent).not.toContain('Selected:');

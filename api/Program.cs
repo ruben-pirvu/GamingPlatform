@@ -1,10 +1,11 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using GamingPlatform.Api.Modules.Health.Abstractions;
-using GamingPlatform.Api.Modules.Health.Services;
+using GamingPlatform.Api.Modules.Content.Abstractions;
+using GamingPlatform.Api.Modules.Content.Services;
 using GamingPlatform.Api.Modules.Identity.Abstractions;
 using GamingPlatform.Api.Modules.Identity.Models;
 using GamingPlatform.Api.Modules.Identity.Services;
+using GamingPlatform.Api.Modules.Launch.Abstractions;
+using GamingPlatform.Api.Modules.Launch.Services;
 using GamingPlatform.Api.Models.DTOs.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -25,11 +26,12 @@ if (Encoding.UTF8.GetByteCount(jwtOptions.SigningKey) < 32)
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddScoped<IHealthService, HealthService>();
 builder.Services.AddSingleton(jwtOptions);
 builder.Services.AddSingleton<IUserStore, JsonUserStore>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IPasswordHasher<UserRecord>, PasswordHasher<UserRecord>>();
+builder.Services.AddSingleton<IGameContentService, JsonGameContentService>();
+builder.Services.AddScoped<ILaunchService, LaunchService>();
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

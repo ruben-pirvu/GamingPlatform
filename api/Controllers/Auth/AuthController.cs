@@ -4,7 +4,7 @@ using GamingPlatform.Api.Modules.Identity.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GamingPlatform.Api.Controllers;
+namespace GamingPlatform.Api.Controllers.Auth;
 
 [ApiController]
 [Route("api/[controller]")]

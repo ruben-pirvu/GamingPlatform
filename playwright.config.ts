@@ -13,7 +13,7 @@ export default defineConfig({
   webServer: [
     {
       command: 'dotnet run --no-launch-profile --project api/GamingPlatform.Api.csproj',
-      url: 'http://localhost:5000/api/health',
+      url: 'http://localhost:5000/api/games',
       env: {
         ASPNETCORE_ENVIRONMENT: 'Development',
         ASPNETCORE_URLS: 'http://localhost:5000',

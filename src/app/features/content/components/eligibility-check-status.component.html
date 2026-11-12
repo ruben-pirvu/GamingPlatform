@@ -1,0 +1,13 @@
+<div class="eligibility-check-result" [class.ready]="state === 'ready'" [class.denied]="state === 'denied'" role="status" aria-live="polite">
+  @if (state === 'checking') {
+    <span class="eligibility-check-spinner" aria-hidden="true"></span>
+    <p>Checking eligibility...</p>
+  } @else if (state === 'ready') {
+    <span class="result-icon check-icon" aria-hidden="true">✓</span>
+    <p>Game ready to load</p>
+  } @else {
+    <span class="result-icon cross-icon" aria-hidden="true">×</span>
+    <p>{{ message ?? 'Age or account eligibility could not be verified.' }}</p>
+    <p>Returning to game selection...</p>
+  }
+</div>

@@ -1,4 +1,4 @@
-using GamingPlatform.Api.Controllers;
+using GamingPlatform.Api.Controllers.Auth;
 using GamingPlatform.Api.Models.DTOs.Auth;
 using GamingPlatform.Api.Modules.Identity.Abstractions;
 using System.Security.Claims;

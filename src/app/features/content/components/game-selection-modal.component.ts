@@ -1,28 +1,29 @@
 import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
-import { AgeCheckState, AgeCheckStatusComponent } from './age-check-status.component';
+import { EligibilityCheckState, EligibilityCheckStatusComponent } from './eligibility-check-status.component';
 import { Game } from '../services/game-content.service';
 
 @Component({
-  imports: [AgeCheckStatusComponent],
+  imports: [EligibilityCheckStatusComponent],
   selector: 'app-game-selection-modal',
   templateUrl: './game-selection-modal.component.html',
   styleUrl: './game-selection-modal.component.css',
 })
 export class GameSelectionModalComponent {
   @Input({ required: true }) game!: Game;
-  @Input() preflightState: AgeCheckState | null = null;
+  @Input() eligibilityCheckState: EligibilityCheckState | null = null;
+  @Input() eligibilityCheckMessage: string | null = null;
   @Output() closeRequested = new EventEmitter<void>();
-  @Output() launchRequested = new EventEmitter<void>();
+  @Output() eligibilityCheckRequested = new EventEmitter<void>();
 
   protected requestClose(): void {
-    if (this.preflightState === null) {
+    if (this.eligibilityCheckState === null) {
       this.closeRequested.emit();
     }
   }
 
-  protected requestLaunch(): void {
-    if (this.preflightState === null) {
-      this.launchRequested.emit();
+  protected requestEligibilityCheck(): void {
+    if (this.eligibilityCheckState === null) {
+      this.eligibilityCheckRequested.emit();
     }
   }
 

@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { randomBytes } from 'node:crypto';
 import { spawn, spawnSync } from 'node:child_process';
 import { after, before, test } from 'node:test';
 import { createServer } from 'node:net';
@@ -106,6 +107,7 @@ before(async () => {
   api = startProcess('dotnet', ['api/bin/Debug/net10.0/GamingPlatform.Api.dll'], {
     ASPNETCORE_ENVIRONMENT: 'Development',
     ASPNETCORE_URLS: apiUrl,
+    Authentication__Jwt__SigningKey: randomBytes(32).toString('base64'),
   });
   await waitForOutput(api, /Now listening on: http:\/\/localhost:5000/i, 'ASP.NET API');
 
@@ -134,10 +136,12 @@ after(async () => {
   await stopProcess(api);
 });
 
-test('Angular proxies API requests and receives the health response', async () => {
-  const response = await fetch(`${frontendUrl}/api/health`);
+test('Angular proxies API requests and receives the game catalog', async () => {
+  const response = await fetch(`${frontendUrl}/api/games`);
 
   assert.equal(response.status, 200);
   assert.match(response.headers.get('content-type') ?? '', /application\/json/);
-  assert.deepEqual(await response.json(), { status: 'ok' });
+  const games = await response.json();
+  assert.equal(games.length, 7);
+  assert.equal(games[0].id, 'solar-spins');
 });
