@@ -39,3 +39,21 @@ button {
 button:disabled {
   cursor: not-allowed;
 }
+
+.browse-games {
+  background: #31205a;
+  border-radius: 0.4rem;
+  color: white;
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.65rem;
+  text-align: center;
+  text-decoration: none;
+}
+
+.browse-games:hover,
+.browse-games:focus-visible {
+  background: #4a3180;
+  outline: 2px solid #8e70c7;
+  outline-offset: 2px;
+}

@@ -8,6 +8,12 @@ test('eligible users can sign in through the Angular client', async ({ page }) =
 
   await expect(page.getByRole('heading', { name: 'Welcome, demo' })).toBeVisible();
   await expect(page.getByRole('status')).toHaveText('Your account is eligible to play.');
+
+  await page.getByRole('link', { name: 'Browse games' }).click();
+  await expect(page).toHaveURL(/\/games$/);
+  await expect(page.locator('.game-card')).toHaveCount(7);
+  await page.getByRole('button', { name: /Solar Spins/ }).click();
+  await expect(page.getByRole('status')).toHaveText('Selected: Solar Spins');
 });
 
 test('ineligible users can authenticate but are shown their eligibility status', async ({ page }) => {

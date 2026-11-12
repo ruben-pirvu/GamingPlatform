@@ -1,0 +1,222 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.games-page {
+  background:
+    radial-gradient(ellipse at 12% 0%, rgb(91 55 163 / 24%), transparent 36rem),
+    #10101a;
+  color: #f7f5ff;
+  min-height: 100vh;
+  padding: clamp(2rem, 5vw, 4.5rem) clamp(1rem, 5vw, 4rem);
+}
+
+.games-header,
+.game-grid,
+.selection-status {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 76rem;
+}
+
+.games-header {
+  margin-bottom: 2rem;
+}
+
+.eyebrow,
+.game-category {
+  color: #c4a5ff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  letter-spacing: -0.045em;
+  margin: 0.4rem 0 0.5rem;
+}
+
+.intro {
+  color: #b9b6c8;
+  margin: 0;
+}
+
+.game-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.game-card {
+  appearance: none;
+  background: #1b1a29;
+  border: 1px solid rgb(255 255 255 / 9%);
+  border-radius: 1rem;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  font: inherit;
+  overflow: hidden;
+  padding: 0;
+  text-align: left;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.game-card:hover {
+  border-color: rgb(196 165 255 / 65%);
+  box-shadow: 0 1rem 2.5rem rgb(0 0 0 / 30%);
+  transform: translateY(-5px);
+}
+
+.game-card:focus-visible {
+  outline: 3px solid #d5bdff;
+  outline-offset: 3px;
+}
+
+.game-card.selected {
+  border-color: #c4a5ff;
+  box-shadow: 0 0 0 2px rgb(196 165 255 / 34%);
+}
+
+.game-artwork {
+  align-items: flex-end;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(135deg, #33204e, #9852a1 55%, #f3b573);
+  display: flex;
+  overflow: hidden;
+  padding: 1rem;
+  position: relative;
+  width: 100%;
+}
+
+.game-artwork::before,
+.game-artwork::after,
+.artwork-orb {
+  border-radius: 50%;
+  content: '';
+  position: absolute;
+}
+
+.game-artwork::before {
+  background: rgb(255 255 255 / 15%);
+  height: 12rem;
+  right: -2rem;
+  top: -5rem;
+  width: 12rem;
+}
+
+.game-artwork::after {
+  background: rgb(12 11 24 / 22%);
+  bottom: -7rem;
+  height: 15rem;
+  left: -2rem;
+  width: 15rem;
+}
+
+.artwork-orb {
+  background: rgb(255 255 255 / 25%);
+  height: 4.5rem;
+  right: 22%;
+  top: 26%;
+  width: 4.5rem;
+}
+
+.artwork-caption {
+  background: rgb(16 16 26 / 54%);
+  border: 1px solid rgb(255 255 255 / 25%);
+  border-radius: 999px;
+  color: white;
+  font-size: 0.7rem;
+  padding: 0.35rem 0.65rem;
+  position: relative;
+  z-index: 1;
+}
+
+.game-artwork[data-artwork='1'] {
+  background: linear-gradient(135deg, #291e4c, #cd674f 58%, #ffc66b);
+}
+
+.game-artwork[data-artwork='2'] {
+  background: linear-gradient(135deg, #1d3754, #637bb7 58%, #e0b5eb);
+}
+
+.game-artwork[data-artwork='3'] {
+  background: linear-gradient(135deg, #123b4c, #16a6a2 58%, #a9e3ce);
+}
+
+.game-artwork[data-artwork='4'] {
+  background: linear-gradient(135deg, #4a2147, #d95683 58%, #ffc278);
+}
+
+.game-artwork[data-artwork='5'] {
+  background: linear-gradient(135deg, #182e5d, #4375c5 58%, #66d9e8);
+}
+
+.game-artwork[data-artwork='6'] {
+  background: linear-gradient(135deg, #183d3a, #4a996d 58%, #d2d888);
+}
+
+.game-details {
+  align-items: flex-start;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 1.1rem 1.2rem 1.25rem;
+  width: 100%;
+}
+
+.game-category {
+  font-size: 0.65rem;
+}
+
+.game-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-top: 0.45rem;
+}
+
+.game-description {
+  color: #b9b6c8;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-top: 0.35rem;
+  min-height: 2.7em;
+}
+
+.card-action {
+  color: #d7c4ff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-top: 1rem;
+}
+
+.selection-status {
+  color: #d7c4ff;
+  font-weight: 700;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 55rem) {
+  .game-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 36rem) {
+  .game-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game-card {
+    transition: none;
+  }
+}
