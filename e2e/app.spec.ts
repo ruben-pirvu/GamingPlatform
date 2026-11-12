@@ -1,13 +1,30 @@
 import { expect, test } from '@playwright/test';
 
-test('Angular loads and reaches the ASP.NET API through its proxy', async ({ page }) => {
-  await page.goto('/');
-  await expect(page.getByRole('heading', { name: 'Hello, gaming-platform' })).toBeVisible();
+test('eligible users can sign in through the Angular client', async ({ page }) => {
+  await page.goto('/login');
+  await page.getByLabel('Username').fill('demo');
+  await page.getByLabel('Password').fill('DemoPass123!');
+  await page.getByRole('button', { name: 'Sign in' }).click();
 
-  const health = await page.evaluate(async () => {
-    const response = await fetch('/api/health');
-    return { status: response.status, body: await response.json() };
-  });
+  await expect(page.getByRole('heading', { name: 'Welcome, demo' })).toBeVisible();
+  await expect(page.getByRole('status')).toHaveText('Your account is eligible to play.');
+});
 
-  expect(health).toEqual({ status: 200, body: { status: 'ok' } });
+test('ineligible users can authenticate but are shown their eligibility status', async ({ page }) => {
+  await page.goto('/login');
+  await page.getByLabel('Username').fill('restricted');
+  await page.getByLabel('Password').fill('RestrictedPass123!');
+  await page.getByRole('button', { name: 'Sign in' }).click();
+
+  await expect(page.getByRole('heading', { name: 'Welcome, restricted' })).toBeVisible();
+  await expect(page.getByRole('status')).toHaveText('Your account is not eligible to play.');
+});
+
+test('invalid credentials do not authenticate', async ({ page }) => {
+  await page.goto('/login');
+  await page.getByLabel('Username').fill('demo');
+  await page.getByLabel('Password').fill('wrong-password');
+  await page.getByRole('button', { name: 'Sign in' }).click();
+
+  await expect(page.getByRole('alert')).toHaveText('Invalid username or password.');
 });

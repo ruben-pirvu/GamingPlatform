@@ -1,4 +1,7 @@
+import { randomBytes } from 'node:crypto';
 import { defineConfig } from '@playwright/test';
+
+const e2eSigningKey = randomBytes(32).toString('base64');
 
 export default defineConfig({
   testDir: './e2e',
@@ -14,6 +17,7 @@ export default defineConfig({
       env: {
         ASPNETCORE_ENVIRONMENT: 'Development',
         ASPNETCORE_URLS: 'http://localhost:5000',
+        Authentication__Jwt__SigningKey: e2eSigningKey,
       },
       reuseExistingServer: false,
       timeout: 120_000,

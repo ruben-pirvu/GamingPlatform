@@ -1,0 +1,44 @@
+<main class="auth-page">
+  <section class="auth-card" aria-labelledby="login-title">
+    @if (user(); as authenticatedUser) {
+      <h1 id="login-title">Welcome, {{ authenticatedUser.username }}</h1>
+      <p role="status">
+        {{
+          authenticatedUser.isEligibleToPlay
+            ? 'Your account is eligible to play.'
+            : 'Your account is not eligible to play.'
+        }}
+      </p>
+      <button type="button" (click)="logout()">Sign out</button>
+    } @else {
+      <h1 id="login-title">Sign in</h1>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <label for="username">Username</label>
+        <input
+          id="username"
+          type="text"
+          formControlName="username"
+          autocomplete="username"
+          required
+        />
+
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          autocomplete="current-password"
+          required
+        />
+
+        @if (errorMessage(); as message) {
+          <p role="alert">{{ message }}</p>
+        }
+
+        <button type="submit" [disabled]="form.invalid || isSubmitting()">
+          {{ isSubmitting() ? 'Signing in...' : 'Sign in' }}
+        </button>
+      </form>
+    }
+  </section>
+</main>

@@ -1,0 +1,14 @@
+[
+  {
+    "id": "player-1",
+    "username": "demo",
+    "passwordHash": "AQAAAAIAAYagAAAAEPEmV1uUDwaT+vsoB5JeeouzTe5mMoKg0rqvwGPwgPjoASNZuxhsbR+El1YpZ2krUA==",
+    "isEligibleToPlay": true
+  },
+  {
+    "id": "player-2",
+    "username": "restricted",
+    "passwordHash": "AQAAAAIAAYagAAAAEA6M3m9Wbl6D7axP7L8cntiRbuJTLG8cmzZcly3g4Yiv29IzA+Rd0hp6HCLnCagmxw==",
+    "isEligibleToPlay": false
+  }
+]

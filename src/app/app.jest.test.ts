@@ -21,8 +21,6 @@ describe('App', () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
 
-    const heading = fixture.nativeElement.querySelector('h1') as HTMLElement;
-    expect(heading.textContent).toContain('Hello, gaming-platform');
     expect(fixture.nativeElement.querySelector('router-outlet')).not.toBeNull();
   });
 });
