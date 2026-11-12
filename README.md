@@ -6,6 +6,9 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 - `src/` contains the Angular frontend.
 - `api/` contains the ASP.NET Core Web API, targeting .NET 10.
+- `GamingPlatform.sln` is the Visual Studio solution for the API.
+
+Open `GamingPlatform.sln` in Visual Studio to develop and run the API. The Angular frontend remains a separate Node.js project and can be run with `npm start`.
 
 ## Run the application
 
