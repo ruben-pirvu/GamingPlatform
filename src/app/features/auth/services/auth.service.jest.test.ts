@@ -28,7 +28,14 @@ describe('AuthService', () => {
   afterEach(() => httpTestingController.verify());
 
   it('stores the login token and uses it to fetch the current user', () => {
-    const expectedUser = { id: 'player-1', username: 'demo', isEligibleToPlay: true };
+    const expectedUser = {
+      id: 'player-1',
+      username: 'demo',
+      isEligibleToPlay: true,
+      isOfLegalAge: true,
+      walletBalance: 125.5,
+      country: 'US',
+    };
     let receivedUser: AuthenticatedUser | null = null;
 
     authService.login({ username: 'demo', password: 'DemoPass123!' }).subscribe((user) => {

@@ -3,12 +3,20 @@
     "id": "player-1",
     "username": "demo",
     "passwordHash": "AQAAAAIAAYagAAAAEPEmV1uUDwaT+vsoB5JeeouzTe5mMoKg0rqvwGPwgPjoASNZuxhsbR+El1YpZ2krUA==",
-    "isEligibleToPlay": true
+    "isEligibleToPlay": true,
+    "governmentId": null,
+    "walletBalance": 125.50,
+    "country": "US",
+    "dateOfBirth": "1994-06-15"
   },
   {
     "id": "player-2",
     "username": "restricted",
     "passwordHash": "AQAAAAIAAYagAAAAEA6M3m9Wbl6D7axP7L8cntiRbuJTLG8cmzZcly3g4Yiv29IzA+Rd0hp6HCLnCagmxw==",
-    "isEligibleToPlay": false
+    "isEligibleToPlay": false,
+    "governmentId": null,
+    "walletBalance": 10.00,
+    "country": "US",
+    "dateOfBirth": "2012-06-15"
   }
 ]

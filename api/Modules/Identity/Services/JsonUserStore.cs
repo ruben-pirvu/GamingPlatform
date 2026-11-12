@@ -22,7 +22,9 @@ public sealed class JsonUserStore : IUserStore
         if (users.Any(user =>
                 string.IsNullOrWhiteSpace(user.Id) ||
                 string.IsNullOrWhiteSpace(user.Username) ||
-                string.IsNullOrWhiteSpace(user.PasswordHash)))
+                string.IsNullOrWhiteSpace(user.PasswordHash) ||
+                string.IsNullOrWhiteSpace(user.Country) ||
+                user.WalletBalance < 0))
         {
             throw new InvalidDataException($"The users file '{path}' contains an incomplete user record.");
         }
@@ -39,5 +41,10 @@ public sealed class JsonUserStore : IUserStore
     {
         return _users.FirstOrDefault(user =>
             string.Equals(user.Username, username, StringComparison.OrdinalIgnoreCase));
+    }
+
+    public UserRecord? FindById(string id)
+    {
+        return _users.FirstOrDefault(user => string.Equals(user.Id, id, StringComparison.Ordinal));
     }
 }

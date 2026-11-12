@@ -1,0 +1,39 @@
+<div class="modal-backdrop" (click)="requestClose()">
+  <section
+    class="game-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="game-modal-title"
+    (click)="$event.stopPropagation()"
+  >
+    @if (preflightState === null) {
+      <button
+        class="close-button"
+        type="button"
+        aria-label="Close game details"
+        autofocus
+        (click)="requestClose()"
+      >
+        ×
+      </button>
+      @if (game.imageUrl) {
+        <img class="modal-artwork" [src]="game.imageUrl" [alt]="game.title" />
+      } @else {
+        <div class="modal-artwork placeholder-artwork" aria-hidden="true">
+          <span>Artwork coming soon</span>
+        </div>
+      }
+      <p class="game-category">{{ game.category }}</p>
+      <h2 id="game-modal-title">{{ game.title }}</h2>
+      <p class="game-description">{{ game.description }}</p>
+      <div class="modal-actions">
+        <button class="launch-button" type="button" (click)="requestLaunch()">
+          Check age &amp; launch
+        </button>
+        <button class="cancel-button" type="button" (click)="requestClose()">Back to games</button>
+      </div>
+    } @else {
+      <app-age-check-status [state]="preflightState" />
+    }
+  </section>
+</div>

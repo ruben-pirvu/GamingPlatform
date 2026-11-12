@@ -4,4 +4,7 @@ namespace GamingPlatform.Api.Models.DTOs.Auth;
 public sealed record AuthenticatedUserResponse(
     string Id,
     string Username,
-    bool IsEligibleToPlay);
+    bool IsEligibleToPlay,
+    bool IsOfLegalAge,
+    decimal WalletBalance,
+    string Country);

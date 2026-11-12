@@ -7,6 +7,9 @@ export interface AuthenticatedUser {
   id: string;
   username: string;
   isEligibleToPlay: boolean;
+  isOfLegalAge: boolean;
+  walletBalance: number;
+  country: string;
 }
 
 export interface LoginResponse {

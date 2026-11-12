@@ -51,8 +51,28 @@ public sealed class AuthService : IAuthService
             expires: expiresAt.UtcDateTime,
             signingCredentials: credentials);
         var accessToken = new JwtSecurityTokenHandler().WriteToken(token);
-        var authenticatedUser = new AuthenticatedUserResponse(user.Id, user.Username, user.IsEligibleToPlay);
+        var authenticatedUser = ToAuthenticatedUserResponse(user);
 
         return new LoginResponse(accessToken, expiresAt, authenticatedUser);
+    }
+
+    public AuthenticatedUserResponse? GetAuthenticatedUser(string userId)
+    {
+        var user = _userStore.FindById(userId);
+        return user is null ? null : ToAuthenticatedUserResponse(user);
+    }
+
+    private static AuthenticatedUserResponse ToAuthenticatedUserResponse(UserRecord user)
+    {
+        var isOfLegalAge = user.DateOfBirth is { } dateOfBirth &&
+            DateOnly.FromDateTime(DateTime.UtcNow) >= dateOfBirth.AddYears(18);
+
+        return new AuthenticatedUserResponse(
+            user.Id,
+            user.Username,
+            user.IsEligibleToPlay,
+            isOfLegalAge,
+            user.WalletBalance,
+            user.Country);
     }
 }

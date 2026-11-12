@@ -37,14 +37,13 @@ public class AuthController : ControllerBase
     public ActionResult<AuthenticatedUserResponse> Me()
     {
         var userId = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-        var username = User.FindFirst(JwtRegisteredClaimNames.UniqueName)?.Value;
-        var eligibility = User.FindFirst("isEligibleToPlay")?.Value;
 
-        if (userId is null || username is null || !bool.TryParse(eligibility, out var isEligibleToPlay))
+        if (userId is null)
         {
             return Unauthorized();
         }
 
-        return Ok(new AuthenticatedUserResponse(userId, username, isEligibleToPlay));
+        var user = _authService.GetAuthenticatedUser(userId);
+        return user is null ? Unauthorized() : Ok(user);
     }
 }
